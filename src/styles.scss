@@ -4,3 +4,28 @@ html,
 body {
   height: 100%;
 }
+
+.customCreateBtn {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #1e2124;
+  width: 17rem;
+  height: 3.2rem;
+  cursor: pointer !important;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.505);
+    color: white;
+    transition: 0.3s;
+  }
+
+  &:disabled {
+    background-color: rgb(132, 132, 132);
+    cursor: not-allowed !important;
+  }
+}

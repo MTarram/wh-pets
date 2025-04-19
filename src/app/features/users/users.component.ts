@@ -12,6 +12,12 @@ import {
   Subject,
   switchMap,
 } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  AddEditUserComponent,
+  UserFormResult,
+} from './add-edit-user/add-edit-user.component';
+import { ToasterService } from '../../shared/services/toaster.service';
 
 @Component({
   selector: 'app-users',
@@ -23,7 +29,15 @@ export class UsersComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  displayedColumns: string[] = ['id', 'fname', 'lname', 'username', 'avatar'];
+  displayedColumns: string[] = [
+    'id',
+    'fname',
+    'lname',
+    'username',
+    'avatar',
+    'actions',
+  ];
+
   dataSource = new MatTableDataSource<IUser>();
   totalUsers = 0;
   pageSize = 10;
@@ -32,7 +46,11 @@ export class UsersComponent implements AfterViewInit {
   private search$ = new Subject<string>();
   private lastSearch = '';
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog,
+    private toastService: ToasterService
+  ) {}
 
   ngOnInit() {
     this.search$
@@ -72,7 +90,6 @@ export class UsersComponent implements AfterViewInit {
     this.userService
       .list(searchTerm, page, size, sort, order)
       .subscribe((res) => {
-        console.log('pageResp: ', res);
         this.dataSource.data = res.data;
         this.totalUsers = res.total;
       });
@@ -83,7 +100,44 @@ export class UsersComponent implements AfterViewInit {
     this.search$.next(term);
   }
 
+  editUser(user: IUser) {
+    const ref = this.dialog.open<AddEditUserComponent, IUser, UserFormResult>(
+      AddEditUserComponent,
+      {
+        width: '400px',
+        data: user,
+      }
+    );
+    ref.afterClosed().subscribe((res: any) => {
+      if (res.status === 'saved') {
+        this.loadUsers(this.lastSearch);
+        this.toastService.showMessage(res.data.message);
+      }
+    });
+  }
+
+  createUser() {
+    const ref = this.dialog.open<AddEditUserComponent, null, UserFormResult>(
+      AddEditUserComponent,
+      {
+        width: '400px',
+        data: null,
+      }
+    );
+    ref.afterClosed().subscribe((res: any) => {
+      if (res.status === 'saved') {
+        this.loadUsers(this.lastSearch);
+        this.toastService.showMessage(res.data.message);
+      }
+    });
+  }
+
   deleteUser(id: number) {
-    this.userService.delete(id).subscribe(() => this.loadUsers());
+    if (!confirm('Are you sure you want to delete this user?')) return;
+
+    this.userService.delete(id).subscribe((res: any) => {
+      this.toastService.showMessage(res.message);
+      this.loadUsers(this.lastSearch);
+    });
   }
 }

@@ -4,10 +4,10 @@ A modern **Angular 19** admin dashboard for managing Users, Attractions, and Pet
 
 - JWT-based authentication with login/logout  
 - **Users Management**: list, search, pagination, sorting, CRUD operations  
-- **Attractions Management**: list, pagination, sorting, CRUD (protected routes)  
+- **Attractions Management**: list, search, pagination, sorting, CRUD operations
 - **Pet Sales Statistics**:  
-  - **Weekly Trend**: 7-day sales chart using Chart.js  
-  - **Daily Details**: breakdown by animal on a selected date (bar chart)
+  - **Weekly Trend**: 7-day sales chart using Chart.js
+  - **Daily Details**: Daily pets sales chart using Chart.js
 
 Built with lazy-loaded modules, standalone Angular components, Angular Material, and Chart.js, and styled using Bootstrap 5. 🎨
 
@@ -110,4 +110,4 @@ src/
 
 ---
 
-*Happy coding!* 🎉🎉🎉# wh-pets
+*Happy coding!* 🎉🎉🎉

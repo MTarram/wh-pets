@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AttractionsComponent],
@@ -23,6 +24,7 @@ import { MatTableModule } from '@angular/material/table';
     MatInputModule,
     MatSort,
     MatSortModule,
+    MatIconModule,
   ],
 })
 export class AttractionsModule {}

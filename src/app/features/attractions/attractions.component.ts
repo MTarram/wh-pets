@@ -12,6 +12,12 @@ import {
 } from 'rxjs';
 import { AttractionService } from '../../core/services/attractions.service';
 import { IAttraction } from '../../core/models/attraction.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ToasterService } from '../../shared/services/toaster.service';
+import {
+  AddEditAttractionComponent,
+  AttractionFormResult,
+} from './add-edit-attraction/add-edit-attraction.component';
 
 @Component({
   selector: 'app-attractions',
@@ -30,6 +36,7 @@ export class AttractionsComponent implements AfterViewInit {
     'coverimage',
     'latitude',
     'longitude',
+    'actions',
   ];
   dataSource = new MatTableDataSource<IAttraction>();
   totalAttractions = 0;
@@ -39,7 +46,11 @@ export class AttractionsComponent implements AfterViewInit {
   private search$ = new Subject<string>();
   private lastSearch = '';
 
-  constructor(private attractionService: AttractionService) {}
+  constructor(
+    private attractionService: AttractionService,
+    private dialog: MatDialog,
+    private toastService: ToasterService
+  ) {}
 
   ngOnInit() {
     this.search$
@@ -89,7 +100,51 @@ export class AttractionsComponent implements AfterViewInit {
     this.search$.next(term);
   }
 
+  editAttraction(attraction: IAttraction) {
+    const ref = this.dialog.open<
+      AddEditAttractionComponent,
+      IAttraction,
+      AttractionFormResult
+    >(AddEditAttractionComponent, {
+      width: '400px',
+      data: attraction,
+    });
+    ref.afterClosed().subscribe((res: any) => {
+      if (res.status === 'saved') {
+        this.loadAttractions(this.lastSearch);
+        this.toastService.showMessage(res.data.message);
+      }
+    });
+  }
+
+  createAttraction() {
+    const ref = this.dialog.open<
+      AddEditAttractionComponent,
+      null,
+      AttractionFormResult
+    >(AddEditAttractionComponent, {
+      width: '400px',
+      data: null,
+    });
+    ref.afterClosed().subscribe((res: any) => {
+      if (res.status === 'saved') {
+        this.loadAttractions(this.lastSearch);
+        this.toastService.showMessage(res.data.message);
+      }
+    });
+  }
+
   deleteAttraction(id: number) {
-    this.attractionService.delete(id).subscribe(() => this.loadAttractions());
+    if (!confirm('Are you sure you want to delete this attraction?')) return;
+
+    this.attractionService.delete(id).subscribe(
+      (res: any) => {
+        this.toastService.showMessage(res.message);
+        this.loadAttractions(this.lastSearch);
+      },
+      (error) => {
+        this.toastService.showMessage(error.error.message);
+      }
+    );
   }
 }

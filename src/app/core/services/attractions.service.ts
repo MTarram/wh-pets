@@ -46,7 +46,7 @@ export class AttractionService {
 
   /** Delete an attraction */
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${END_POINTS.ATTRACTIONS}/delete`, {
+    return this.http.delete<void>(`${END_POINTS.ATTRACTIONS_AUTH}/delete`, {
       body: { id },
     });
   }
