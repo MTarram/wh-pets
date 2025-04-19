@@ -1,0 +1,32 @@
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.users-table {
+  width: 100%;
+  border-radius: 2rem;
+}
+
+.mat-column-id,
+.mat-column-fname,
+.mat-column-lname,
+.mat-column-username,
+.mat-column-avatar {
+  font-size: 1rem;
+  font-family: system-ui;
+}
+
+.mat-column-id {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  text-align: center;
+}
+
+.mat-column-avatar {
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+}

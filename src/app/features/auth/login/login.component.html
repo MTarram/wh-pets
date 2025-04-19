@@ -1,0 +1,74 @@
+<section class="login">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center align-items-center mb-5">
+        <h1
+          style="
+            font-size: 4rem;
+            color: white;
+            z-index: 1000;
+            font-family: 'Tilt Prism', cursive;
+          "
+        >
+          Pets Admin
+        </h1>
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="card">
+          <h1
+            style="
+              font-weight: 700;
+              font-size: 30px;
+              font-family: 'Poppins', sans-serif;
+            "
+          >
+            {{ "Login" }}
+          </h1>
+          <p class="loginText">
+            {{ "Hello again! Enter your details to login to your account." }}
+          </p>
+          <form class="example-form w-100" [formGroup]="form">
+            <div class="mb-3">
+              <label for="inputUsername" class="form-label">{{
+                "Username"
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="username"
+                id="inputUsername"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="inputPassword" class="form-label">{{
+                "Password"
+              }}</label>
+              <input
+                type="password"
+                class="form-control"
+                formControlName="password"
+                id="inputPassword"
+              />
+            </div>
+            <small>{{ "Having trouble with sign in?" }}</small>
+            <div class="my-4 text-center">
+              <button
+                class="btn customBtn w-100"
+                [disabled]="form.invalid"
+                (click)="onSubmit()"
+              >
+                {{ "Sign In" }}
+              </button>
+            </div>
+            <div class="text-center">
+              <small
+                >{{ "Don't have an account?" }}
+                <strong>{{ "Request now!" }}</strong></small
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

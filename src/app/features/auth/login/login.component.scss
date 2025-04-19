@@ -1,0 +1,60 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  &::before {
+    content: "";
+    background-image: url("/assets/loginBG.jpg");
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: 100% 100%;
+    filter: brightness(60%);
+  }
+}
+
+.customBtn {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  border: none;
+  color: white;
+  background-color: #05232e;
+  width: 17rem;
+  height: 3.2rem;
+  cursor: pointer !important;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: #131118;
+    color: white;
+    transition: 0.3s;
+  }
+
+  &:disabled {
+    background-color: rgb(132, 132, 132);
+    cursor: not-allowed !important;
+  }
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  border-radius: 20px;
+  background-color: #fdfdfd;
+  filter: brightness(95%);
+}
+
+.loginText {
+  max-width: 340px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 30px;
+  text-align: center;
+}

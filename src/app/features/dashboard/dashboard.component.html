@@ -1,0 +1,43 @@
+<div class="admin-panel">
+  <nav class="sidebar">
+    <h1>Pets Admin</h1>
+
+    <ul>
+      <li routerLinkActive="active">
+        <a class="d-flex gap-1" routerLink="users">
+          <mat-icon
+            style="font-size: 24px; color: rgba(0, 128, 128, 0.61)"
+            fontIcon="people"
+          ></mat-icon>
+          <span>Users</span>
+        </a>
+      </li>
+      <li routerLinkActive="active">
+        <a class="d-flex gap-1" routerLink="attractions">
+          <mat-icon
+            style="font-size: 24px; color: #8c7c7c"
+            fontIcon="place"
+          ></mat-icon>
+          <span>Attractions</span>
+        </a>
+      </li>
+      <li routerLinkActive="active">
+        <a class="d-flex gap-1" routerLink="pet-sales">
+          <mat-icon
+            style="font-size: 24px; color: rgba(168, 99, 46, 0.558)"
+            fontIcon="pets"
+          ></mat-icon>
+          <span>Pet Sales</span>
+        </a>
+      </li>
+    </ul>
+
+    <button class="btn btn-outline-secondary mx-4 mt-auto" (click)="logout()">
+      Logout
+    </button>
+  </nav>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

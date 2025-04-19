@@ -1,0 +1,33 @@
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.attractions-table {
+  width: 100%;
+  border-radius: 2rem;
+}
+
+.mat-column-id,
+.mat-column-name,
+.mat-column-detail,
+.mat-column-coverimage,
+.mat-column-latitude,
+.mat-column-longitude {
+  font-size: 1rem;
+  font-family: system-ui;
+}
+
+.mat-column-id {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  text-align: center;
+}
+
+.mat-column-coverimage {
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+}

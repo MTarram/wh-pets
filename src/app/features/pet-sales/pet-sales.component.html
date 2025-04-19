@@ -1,0 +1,55 @@
+<div class="container-fluid weekly-chart-card">
+  <div class="d-flex justify-content-between align-items-start">
+    <span class="card-title">Weekly Pets Sales</span>
+    <mat-form-field appearance="outline" class="ms-3">
+      <mat-label>Start Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="weeklyPicker"
+        [value]="weeklyStartDate | date : 'yyyy-MM-dd'"
+        (dateChange)="onWeeklyDateChange($event)"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="weeklyPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #weeklyPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="chart-wrapper">
+        <canvas #weeklyCanvas></canvas>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="container-fluid daily-chart-card mt-4">
+  <div class="d-flex justify-content-between align-items-start">
+    <span class="card-title">Daily Pets Sales</span>
+    <mat-form-field appearance="outline" class="ms-3">
+      <mat-label>Selected Day</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dailyPicker"
+        [value]="dailyStartDate | date : 'yyyy-MM-dd'"
+        (dateChange)="onDailyDateChange($event)"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="dailyPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #dailyPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="chart-wrapper">
+        <canvas #dailyCanvas></canvas>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
