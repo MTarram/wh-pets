@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +15,7 @@ import {
   switchMap,
   merge,
   startWith,
+  takeUntil,
 } from 'rxjs';
 import { AttractionService } from '../../core/services/attractions.service';
 import { IAttraction } from '../../core/models/attraction.model';
@@ -25,7 +32,7 @@ import {
   templateUrl: './attractions.component.html',
   styleUrl: './attractions.component.scss',
 })
-export class AttractionsComponent implements AfterViewInit {
+export class AttractionsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -43,8 +50,12 @@ export class AttractionsComponent implements AfterViewInit {
   pageSize = 10;
   pageSizeOptions = [5, 10, 20];
 
+  // Observable for search input
   private search$ = new Subject<string>();
   private lastSearch = '';
+
+  // To unsubscribe from observables when the component is destroyed
+  private destroy$ = new Subject<void>();
 
   constructor(
     private attractionService: AttractionService,
@@ -67,7 +78,8 @@ export class AttractionsComponent implements AfterViewInit {
             this.sort.active || 'id',
             this.sort.direction || 'asc'
           );
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe((res) => {
         this.dataSource.data = res.data;
@@ -77,8 +89,13 @@ export class AttractionsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     merge(this.paginator.page, this.sort.sortChange)
-      .pipe(startWith({}))
+      .pipe(startWith({}), takeUntil(this.destroy$))
       .subscribe(() => this.loadAttractions(this.lastSearch));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadAttractions(searchTerm: string = '') {

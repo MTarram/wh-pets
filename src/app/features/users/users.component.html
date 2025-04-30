@@ -4,7 +4,13 @@
   <div class="d-flex flex-column flex-md-row justify-content-md-between mb-3">
     <mat-form-field appearance="outline" class="w-25">
       <mat-label>Search</mat-label>
-      <input matInput (keyup)="onSearch($event)" placeholder="Ex. Mia" #input />
+      <input
+        matInput
+        (input)="onSearch($event)"
+        type="search"
+        placeholder="Ex. Mia"
+        #input
+      />
     </mat-form-field>
 
     <button class="customCreateBtn" (click)="createUser()">Add User</button>
@@ -61,11 +67,11 @@
         </button>
         |
         <button
-          class="btn btn-outline-secondary ms-2"
+          class="btn btn-outline-danger ms-2"
           style="padding: 0.2rem 0.2rem 0 0.2rem"
           (click)="deleteUser(user.id)"
         >
-          <mat-icon style="color: red">delete</mat-icon>
+          <mat-icon>delete</mat-icon>
         </button>
       </td>
     </ng-container>

@@ -74,19 +74,19 @@ export class AddEditAttractionComponent implements OnInit {
           coverimage: 'https://www.melivecode.com/attractions/6.jpg',
           ...val,
         })
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.dialogRef.close({
               status: 'saved',
               data: res,
             });
           },
-          (_) => {
+          error: (_) => {
             this.toastService.showMessage('Error updating attraction');
             this.isLoading = false;
           },
-          () => (this.isLoading = false)
-        );
+          complete: () => (this.isLoading = false),
+        });
     } else {
       // Create new
       this.attractionService
@@ -94,19 +94,19 @@ export class AddEditAttractionComponent implements OnInit {
           coverimage: 'https://www.melivecode.com/attractions/6.jpg',
           ...val,
         })
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.dialogRef.close({
               status: 'saved',
               data: res,
             });
           },
-          (_) => {
+          error: (_) => {
             this.toastService.showMessage('Error creating attraction');
             this.isLoading = false;
           },
-          () => (this.isLoading = false)
-        );
+          complete: () => (this.isLoading = false),
+        });
     }
   }
 

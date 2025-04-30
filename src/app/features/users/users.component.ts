@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { IUser } from '../../core/models/user.model';
@@ -11,6 +17,7 @@ import {
   startWith,
   Subject,
   switchMap,
+  takeUntil,
 } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -25,7 +32,7 @@ import { ToasterService } from '../../shared/services/toaster.service';
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })
-export class UsersComponent implements AfterViewInit {
+export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -43,8 +50,12 @@ export class UsersComponent implements AfterViewInit {
   pageSize = 10;
   pageSizeOptions = [5, 10, 20];
 
+  // Observable for search input
   private search$ = new Subject<string>();
   private lastSearch = '';
+
+  // To unsubscribe from observables when the component is destroyed
+  private destroy$ = new Subject<void>();
 
   constructor(
     private userService: UserService,
@@ -67,7 +78,8 @@ export class UsersComponent implements AfterViewInit {
             this.sort.active || 'id',
             this.sort.direction || 'asc'
           );
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe((resp) => {
         this.dataSource.data = resp.data;
@@ -77,8 +89,13 @@ export class UsersComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     merge(this.paginator.page, this.sort.sortChange)
-      .pipe(startWith({}))
+      .pipe(startWith({}), takeUntil(this.destroy$))
       .subscribe(() => this.loadUsers(this.lastSearch));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   loadUsers(searchTerm: string = '') {

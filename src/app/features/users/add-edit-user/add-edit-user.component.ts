@@ -68,19 +68,21 @@ export class AddEditUserComponent implements OnInit {
           avatar: 'https://www.melivecode.com/users/1.png',
           ...val,
         })
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.dialogRef.close({
               status: 'saved',
               data: res,
             });
           },
-          (_) => {
+          error: (_) => {
             this.toastService.showMessage('Error updating user');
             this.isLoading = false;
           },
-          () => (this.isLoading = false)
-        );
+          complete: () => {
+            this.isLoading = false;
+          },
+        });
     } else {
       // Create new
       this.userService
@@ -89,19 +91,19 @@ export class AddEditUserComponent implements OnInit {
           avatar: 'https://www.melivecode.com/users/1.png',
           ...val,
         })
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             this.dialogRef.close({
               status: 'saved',
               data: res,
             });
           },
-          (_) => {
+          error: (_) => {
             this.toastService.showMessage('Error creating user');
             this.isLoading = false;
           },
-          () => (this.isLoading = false)
-        );
+          complete: () => (this.isLoading = false),
+        });
     }
   }
 
